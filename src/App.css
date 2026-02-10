@@ -2,3 +2,7 @@
     0% { opacity: 0; transform: scale(0); }
     100% { opacity: 1; transform: scale(1); }
 }
+@keyframes showHint {
+    0% {border: 3px solid green;}
+    100% {border: none}
+}

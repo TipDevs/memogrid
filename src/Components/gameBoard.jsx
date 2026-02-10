@@ -1,7 +1,7 @@
 import GameCard from "./Cards/gameCard";
 import Loader from "./Loader/loader";
 import { useEffect } from "react";
-
+let threeSelectedTrue = 0;
 function GameBoard({
   cacheData,
   setCacheData,
@@ -9,7 +9,11 @@ function GameBoard({
   apiFn,
   endGame,
   gameState,
-  setCardClickedTwice
+  setCardClickedTwice,
+  allSelected,
+  setHintCount,
+  hintUsed,
+  setScore,
 }) {
   useEffect(() => {
     if (cacheData.length === selectedCardNumber) return;
@@ -19,12 +23,12 @@ function GameBoard({
       apiFn: apiFn.fetchPokemonData,
       setCacheData,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCardNumber]);
 
   function shuffleGameCard(cacheData) {
     const cacheDataCopy = [...cacheData];
-    for (let i = cacheDataCopy.length - 1; i > 0; i--) {  
+    for (let i = cacheDataCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [cacheDataCopy[i], cacheDataCopy[j]] = [
         cacheDataCopy[j],
@@ -43,14 +47,27 @@ function GameBoard({
           ),
         );
         setCacheData((prev) => shuffleGameCard(prev));
+        setScore((prev) => ({
+          ...prev,
+          Score: prev.Score + 1,
+        }));
+        threeSelectedTrue += 1;
       } else if (data.id === id && data.selected === true) {
+        setCardClickedTwice(true);
         endGame(gameState.gameEnd);
         setCacheData((prev) =>
           prev.map((data) => ({ ...data, selected: false })),
         );
-        setCardClickedTwice(true);
+        return;
       }
     });
+  }
+  if (allSelected) {
+    endGame(gameState.gameEnd);
+  }
+  if (threeSelectedTrue >= 3 && threeSelectedTrue % 3 === 0) {
+    threeSelectedTrue = 0;
+    setHintCount((prev) => prev + 1);
   }
 
   return (
@@ -61,7 +78,7 @@ function GameBoard({
           {cacheData.map((item, index) => (
             <li
               key={item.name + index}
-              className={`flex flex-col items-center justify-center w-[${selectedCardNumber > 10 ? 50 : 60}px] h-fit bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md`}
+              className={`flex flex-col items-center justify-center w-[${selectedCardNumber > 10 ? 50 : 60}px] h-fit bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md ${hintUsed && item.selected && "animate-[showHint_3s_ease-in-out]"}`}
               onClick={() => {
                 handleClick(item.id);
               }}>

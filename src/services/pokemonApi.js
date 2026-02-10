@@ -37,7 +37,6 @@ async function processData({ cardNumber, apiFn, setCacheData }) {
       });
 
     setCacheData(validPokemon);
-    console.log("Processed Pokémon data:", validPokemon);
   } catch (err) {
     console.error("Error fetching Pokémon data:", err);
   }

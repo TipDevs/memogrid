@@ -9,7 +9,7 @@ import useTimer from "./Hooks/timer.js";
 import endGame from "./Utils/endGame.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-let hintCount = 0;
+let hintUsed = false;
 function App() {
   const gameState = useGameState();
   const time = useTimer(
@@ -17,26 +17,47 @@ function App() {
     gameState.cacheData,
     gameState.selectedCardNumber,
   );
+  const allSelected =
+    gameState.cacheData.length > 0 &&
+    gameState.cacheData.every((data) => data.selected === true);
+  if (gameState.score.Score > gameState.score["Best Score"]) {
+    gameState.setScore((prev) => ({
+      ...prev,
+      "Best Score": prev.Score,
+    }));
+  }
   return (
     <>
       {/* Header with score and hint status */}
       {gameState.gameState !== "Not started" && (
         <header className="w-screen flex-0.5 flex items-center justify-between px-[20px]">
           <div className="flex flex-col gap-2">
-            <p className="font-bold">Best Score: {0}</p>{" "}
-            <p className="font-bold">Score: {0}</p>
+            <p className="font-bold">
+              Best Score: {gameState.score["Best Score"]}
+            </p>{" "}
+            <p className="font-bold">Score: {gameState.score.Score}</p>
           </div>
           <p
             className={`font-bold text-[#${gameState.selectedTime - time <= 10 ? "ff0000" : "00ff00"}]`}>
             {time}s
           </p>
-          <div className="flex items-center flex-col gap-2">
+          <div
+            className="flex items-center flex-col gap-2"
+            onClick={() => {
+              if (gameState.hintCount > 0) {
+                hintUsed = true;
+                gameState.setHintCount((prev) => prev - 1);
+                setTimeout(() => {
+                  hintUsed = false;
+                }, 2500);
+              }
+            }}>
             <FontAwesomeIcon
-              icon={hintCount > 0 ? faEye : faEyeSlash}
+              icon={gameState.hintCount > 0 ? faEye : faEyeSlash}
               className="text-2xl"
             />{" "}
             <p className="font-bold">
-              {hintCount > 0 ? "Use hint" : "No hint"}
+              {gameState.hintCount > 0 ? "Use hint" : "No hint"}
             </p>
           </div>
         </header>
@@ -56,6 +77,11 @@ function App() {
             endGame={endGame}
             gameState={gameState}
             setCardClickedTwice={gameState.setCardClickedTwice}
+            allSelected={allSelected}
+            hintCount={gameState.hintCount}
+            setHintCount={gameState.setHintCount}
+            hintUsed={hintUsed}
+            setScore={gameState.setScore}
           />
         )}
         {time === gameState.selectedTime && endGame(gameState.gameEnd)}
@@ -65,6 +91,7 @@ function App() {
             selectedTime={gameState.selectedTime}
             cacheData={gameState.cacheData}
             cardClickedTwice={gameState.cardClickedTwice}
+            allSelected={allSelected}
           />
         )}
       </main>

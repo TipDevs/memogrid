@@ -19,12 +19,12 @@ function GameBoard({
       apiFn: apiFn.fetchPokemonData,
       setCacheData,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCardNumber]);
 
   function shuffleGameCard(cacheData) {
     const cacheDataCopy = [...cacheData];
-    for (let i = cacheDataCopy.length - 1; i > 0; i--) {
-      // eslint-disable-next-line react-hooks/purity
+    for (let i = cacheDataCopy.length - 1; i > 0; i--) {  
       const j = Math.floor(Math.random() * (i + 1));
       [cacheDataCopy[i], cacheDataCopy[j]] = [
         cacheDataCopy[j],

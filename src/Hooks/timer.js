@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 
-function useTimer(gameState, cacheData, selectedCardNumber) {
-  const [time, setTime] = useState(0);
+function useTimer(gameState, cacheData, selectedCardNumber, selectedTime) {
+  const [time, setTime] = useState(selectedTime);
   useEffect(() => {
     let timer;
-    if (gameState === "Game Start" && cacheData.length  === selectedCardNumber) {
+    if (gameState === "Game Start" && cacheData.length === selectedCardNumber) {
       timer = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
+        setTime((prevTime) => prevTime - 1);
       }, 1000);
-    } else {
-      (() => {
-        setTime(0);
-      })();
-      clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [gameState, cacheData, selectedCardNumber]);
+  }, [gameState, cacheData, selectedCardNumber, selectedTime]);
   return time;
 }
 

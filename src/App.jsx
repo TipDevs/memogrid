@@ -21,29 +21,29 @@ function App() {
   console.log(gameState.gameState);
   return (
     <>
-      {gameState.gameState === "Game Start" ||
-        (gameState.gameState === "Game Over" && (
-          <GameHeader
-            gameState={gameState}
-            onTime={onTime}
-            setHintUsed={setHintUsed}
-          />
-        ))}
+      {(gameState.gameState === "Game Start" ||
+        gameState.gameState === "Game Over") && (
+        <GameHeader
+          gameState={gameState}
+          onTime={onTime}
+          setHintUsed={setHintUsed}
+        />
+      )}
 
       {/* Main content area */}
       <main className="w-full flex-3 flex items-center justify-center pb-[20px] flex-col">
         {gameState.gameState === "Not started" && (
-            <>
-              <p
-                className="absolute top-10 right-10 underline cursor-pointer"
-                onClick={() => {
-                  gameState.showGameGuide();
-                }}>
-                How to play?
-              </p>
-              <SelectionBoard gameState={gameState} startGame={startGame} />
-            </>
-          )}
+          <>
+            <p
+              className="absolute top-10 right-10 underline cursor-pointer"
+              onClick={() => {
+                gameState.showGameGuide();
+              }}>
+              How to play?
+            </p>
+            <SelectionBoard gameState={gameState} startGame={startGame} />
+          </>
+        )}
         {gameState.gameState === "Show Game Guide" && (
           <>
             <p

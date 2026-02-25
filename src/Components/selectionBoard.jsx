@@ -3,7 +3,7 @@ function SelectionBoard(props) {
   return (
     <>
       <div
-        className={`flex flex-col w-[80%] max-w-[450px] items-center justify-center bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md p-[10px] animate-[fadeIn_1s_ease-in-out]`}>
+        className={`flex flex-col w-[80%] max-w-[450px] items-center justify-center bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md p-[10px] fade-in`}>
         <div className="flex flex-col gap-[30px] items-center">
           <p className="text-center">
             Welcome to MemoGrid - A memory card game to test your intellectual

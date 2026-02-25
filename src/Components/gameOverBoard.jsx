@@ -2,7 +2,7 @@ function GameOverBoard(props) {
   return (
     <>
       <div
-        className={`flex flex-col w-[80%] max-w-[450px] items-center justify-center bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md p-[10px] animate-[fadeIn_1s_ease-in-out]`}>
+        className={`flex flex-col w-[80%] max-w-[450px] items-center justify-center bg-[#ffffff00] rounded-lg backdrop-blur-2xl shadow-md p-[10px] fade-in`}>
         {props.allSelected && (
           <p className="text-white flex flex-col items-center">
             Game Over!!! <span>You successfully pass the game ❤</span>

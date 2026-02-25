@@ -1,8 +1,43 @@
-@keyframes fadeIn {
-    0% { opacity: 0; transform: scale(0); }
-    100% { opacity: 1; transform: scale(1); }
+.fade-in {
+  opacity: 1;
+  transform: scale(0.8);
+  animation: fadeIn 1s ease-in-out forwards;
 }
-@keyframes showHint {
-    0% {border: 3px solid green;}
-    100% {border: none}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.card {
+  position: relative;
+  overflow: hidden;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0; 
+  border: 3px solid green;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+  box-sizing: border-box;
+}
+.card.hint::after {
+  opacity: 1;
+}
+
+.hintCountBox {
+    position: relative;
+}
+.hintCount {
+    position: absolute;
+    top: -25%;
+    left: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
